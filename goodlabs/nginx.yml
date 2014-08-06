@@ -1,0 +1,15 @@
+---
+- hosts: web
+  tasks:
+    - name: Installs nginx web server
+      apt: pkg=nginx state=installed update_cache=true
+      notify:
+        - start nginx
+    - name: Copies over the configuration file
+      template: src=../templates/nginx/rails_host_config.j2 dest=/etc/nginx/sites-available/{{groupHostname}}
+    - name: Make the website configuarion enabled in nginx
+      file: src=/etc/nginx/sites-available/{{groupHostname}} dest=/etc/nginx/sites-enabled/{{groupHostname}} state=link
+      
+  handlers:
+    - name: start nginx
+      service: name=nginx state=started

@@ -1,0 +1,8 @@
+---
+- name: Installs git
+  apt: pkg=git state=installed update_cache=true
+  tags: git
+- name: Installs htop
+  apt: pkg=htop state=installed update_cache=true
+  tags: htop
+
